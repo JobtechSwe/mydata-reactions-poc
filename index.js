@@ -3,7 +3,7 @@ const reactions = require('./reactions')
 const storage = require('./storage')
 const { map, switchMap, filter } = require('rxjs/operators')
 
-const user$ = streams.uberDrives.pipe(
+streams.uberDrives.pipe(
   // load previous user object
   switchMap(drive => storage.get('user', drive.driver.id).then(user => ({user: user || {id: drive.driver.id, gig: {}}, drive}))),
 
@@ -15,8 +15,6 @@ const user$ = streams.uberDrives.pipe(
 
   // only keep emit users that were changed
   filter(user => user)
-)
-
-user$.subscribe(user => {
+).subscribe(user => {
   console.log('user', user)
 })
