@@ -7,8 +7,8 @@ module.exports = {
       id: drive.id,
       gig: {
         ...user.gig,
-        rating: ((user.gig.rating || 0) * (user.gig.drives || 0) + drive.rating) / (user.gig.drives + 1),
-        drives: (user.gig.drives || 0) + 1
+        rating: ((user.gig && user.gig.rating || 0) * (user.gig && user.gig.drives || 0) + drive.rating) / ((user.gig && user.gig.drives || 0) + 1),
+        drives: (user.gig && user.gig.drives || 0) + 1
       }
     }
   }

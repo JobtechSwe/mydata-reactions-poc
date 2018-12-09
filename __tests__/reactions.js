@@ -1,9 +1,9 @@
 /* eslint-env jest */
 const reactions = require('../reactions')
 
-test('basic transformation', () => {
+test('uber transformation', () => {
   const drive = {
-    id: 1,
+    driver: {id: 1337},
     rating: 1
   }
   const user = {
@@ -21,6 +21,10 @@ test('basic transformation', () => {
       rating: 3.72
     }
   }
-  const result = reactions.userFromUberDrive(user, drive)
+  const mapped = reactions.userFromUberDrive.map(drive)
+  expect(mapped).toEqual({id: 1337, rating: 1})
+
+  const result = reactions.userFromUberDrive.reduce(user, mapped)
   expect(result).toEqual(expected)
 })
+

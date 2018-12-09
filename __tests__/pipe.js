@@ -44,7 +44,7 @@ describe('pipeline', () => {
     results.subscribe(obj => {
       expect(obj).toEqual({id: 111, drive: { id: 111 }, scope: 'user'})
       expect(storage.get).toBeCalledWith('user', 111)
-      expect(storage.set).toBeCalledWith('user', 111, {id: 111, scope: 'user'})
+      expect(storage.set).toBeCalledWith('user', 111, {id: 111, drive: { id: 111 }, scope: 'user'})
       done()
     })
   })
