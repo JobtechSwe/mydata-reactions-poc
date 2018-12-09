@@ -37,8 +37,8 @@ describe('pipeline', () => {
     const pipeline = new Pipe(storage, 'user')
     const results = pipeline.pipe(
       uberDrive,
-      uberDrive => uberDrive,
-      (user, drive) => ({...user, drive})
+      uberDrive => Promise.resolve(uberDrive),
+      (user, drive) => Promise.resolve({...user, drive})
     )
 
     results.subscribe(obj => {
@@ -67,9 +67,9 @@ describe('pipeline', () => {
     const results = pipeline.pipe(
       uberDrive,
       // map
-      uberDrive => ({ id: uberDrive.driver.id, driveId: uberDrive.id }),
+      uberDrive => Promise.resolve({ id: uberDrive.driver.id, driveId: uberDrive.id }),
       // reduce
-      (user, drive) => ({id: user.id, latestDriveId: drive.driveId})
+      (user, drive) => Promise.resolve({id: user.id, latestDriveId: drive.driveId})
     )
 
     results.subscribe(obj => {
