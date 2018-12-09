@@ -1,4 +1,7 @@
-const gigFromDrive = require('./gigFromDrive')
+const userFromUberDrive = require('./userFromUberDrive')
+const userFromLinkedIn = require('./userFromLinkedIn')
+
 module.exports = {
-  gigFromDrive
+  userFromUberDrive,
+  userFromLinkedIn
 }

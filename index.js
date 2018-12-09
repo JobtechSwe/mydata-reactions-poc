@@ -1,20 +1,22 @@
 const streams = require('./streams')
-const reactions = require('./reactions')
 const storage = require('./storage')
-const { map, switchMap, filter } = require('rxjs/operators')
+const { userFromUberDrive, userFromLinkedIn } = require('./reactions')
+const Pipe = require('./lib/Pipe')
 
-streams.uberDrives.pipe(
-  // load previous user object
-  switchMap(drive => storage.get('user', drive.driver.id).then(user => ({user: user || {id: drive.driver.id, gig: {}}, drive}))),
+const userPipeline = new Pipe(storage, 'user')
 
-  // send it to all subscribers
-  map(({user, drive}) => ({...user, gig: reactions.gigFromDrive(user.gig, drive)})),
+userPipeline
+  .pipe(streams.uberDrive, userFromUberDrive.map, userFromUberDrive.reduce)
+  .subscribe(async user => {
+    console.log('uberUpdatedUser', user)
+    /*const history = await storage.getHistory(user.hash)
+    console.log('history', history)*/
+  })
 
-  // save the new object
-  switchMap(user => storage.set('user', user.id, user)),
-
-  // only keep emit users that were changed
-  filter(user => user)
-).subscribe(user => {
-  console.log('user', user)
-})
+userPipeline
+  .pipe(streams.linkedIn, userFromLinkedIn.map, userFromLinkedIn.reduce)
+  .subscribe(async user => {
+    console.log('linkedInUpdatedUser', user)
+    /*const history = await storage.getHistory(user.hash)
+    console.log('history', history)*/
+  })

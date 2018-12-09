@@ -1,5 +1,7 @@
-const uberDrives = require('./uberDrives')
+const uberDrive = require('./uberDrive')
+const linkedIn = require('./linkedIn')
 
 module.exports = {
-  uberDrives: uberDrives
+  uberDrive,
+  linkedIn
 }
