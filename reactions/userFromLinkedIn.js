@@ -5,10 +5,10 @@ module.exports = {
     update: linkedIn
   }),
 
-  reduce: (user = {experience: [], education: []}, linkedIn) => ({
+  reduce: (user = {experience: [], education: []}, mapped) => ({
     ...user,
-    id: linkedIn.id,
-    experience: [...(user.experience || []), linkedIn.update.experience],
-    education: [...(user.education || []), linkedIn.update.education]
+    id: mapped.id,
+    experience: [...(user.experience || []), mapped.update.experience],
+    education: [...(user.education || []), mapped.update.education]
   })
 }
